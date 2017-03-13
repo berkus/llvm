@@ -21,6 +21,8 @@ class Target;
 
 Target &getTheMSP430Target();
 
+MCAsmBackend *createMSP430AsmBackend(const Triple &TT);
+
 } // End llvm namespace
 
 // Defines symbolic names for MSP430 registers.
