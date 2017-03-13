@@ -23,6 +23,8 @@ Target &getTheMSP430Target();
 
 MCAsmBackend *createMSP430AsmBackend(const Triple &TT);
 
+MCObjectWriter *createMSP430ELFObjectWriter(raw_pwrite_stream &OS);
+
 } // End llvm namespace
 
 // Defines symbolic names for MSP430 registers.
