@@ -26,10 +26,10 @@ unsigned MSP430ELFObjectWriter::getRelocType(MCContext &Ctx,
                                                   bool IsPCRel) const {
   // MSP430 functions are not allocated in the address space. To resolve a
   // pointer to a function, we must use a special relocation type.
-  if (const MCSymbolRefExpr *SyExp =
-          dyn_cast<MCSymbolRefExpr>(Fixup.getValue()))
-    if (SyExp->getKind() == MCSymbolRefExpr::VK_MSP430_FUNCTION)
-      return ELF::R_WEBASSEMBLY_FUNCTION;
+  // if (const MCSymbolRefExpr *SyExp =
+  //         dyn_cast<MCSymbolRefExpr>(Fixup.getValue()))
+  //   if (SyExp->getKind() == MCSymbolRefExpr::VK_MSP430_FUNCTION)
+  //     return ELF::R_WEBASSEMBLY_FUNCTION;
 
   switch (Fixup.getKind()) {
   case FK_Data_4:
@@ -43,10 +43,7 @@ unsigned MSP430ELFObjectWriter::getRelocType(MCContext &Ctx,
   }
 }
 
-MCObjectWriter *llvm::createMSP430ELFObjectWriter(raw_pwrite_stream &OS,
-                                                       bool Is64Bit,
-                                                       uint8_t OSABI) {
-  MCELFObjectTargetWriter *MOTW =
-      new MSP430ELFObjectWriter(Is64Bit, OSABI);
+MCObjectWriter *llvm::createMSP430ELFObjectWriter(raw_pwrite_stream &OS) {
+  MCELFObjectTargetWriter *MOTW = new MSP430ELFObjectWriter();
   return createELFObjectWriter(MOTW, OS, /*IsLittleEndian=*/true);
 }

@@ -17,7 +17,11 @@
 #include "llvm/Support/DataTypes.h"
 
 namespace llvm {
+class MCAsmBackend;
+class MCObjectWriter;
 class Target;
+class Triple;
+class raw_pwrite_stream;
 
 Target &getTheMSP430Target();
 

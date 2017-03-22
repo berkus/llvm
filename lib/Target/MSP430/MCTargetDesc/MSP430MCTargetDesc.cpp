@@ -57,6 +57,20 @@ static MCInstPrinter *createMSP430MCInstPrinter(const Triple &T,
   return nullptr;
 }
 
+static MCStreamer *createMCStreamer(const Triple &T, MCContext &Context,
+                                    MCAsmBackend &MAB, raw_pwrite_stream &OS,
+                                    MCCodeEmitter *Emitter, bool RelaxAll) {
+  return createELFStreamer(Context, MAB, OS, Emitter, RelaxAll);
+}
+
+static MCAsmBackend *createMSP430AsmBackend_(const Target & /*T*/,
+                                      const MCRegisterInfo & /*MRI*/,
+                                      const Triple &TT, StringRef /*CPU*/,
+                                      const MCTargetOptions & /*Options*/) {
+  return createMSP430AsmBackend(TT);
+}
+
+
 extern "C" void LLVMInitializeMSP430TargetMC() {
   // Register the MC asm info.
   RegisterMCAsmInfo<MSP430MCAsmInfo> X(getTheMSP430Target());
@@ -76,4 +90,24 @@ extern "C" void LLVMInitializeMSP430TargetMC() {
   // Register the MCInstPrinter.
   TargetRegistry::RegisterMCInstPrinter(getTheMSP430Target(),
                                         createMSP430MCInstPrinter);
+
+  // Register the MC Code Emitter
+  TargetRegistry::RegisterMCCodeEmitter(getTheMSP430Target(),
+                                        createMSP430MCCodeEmitter);
+
+  // Register the ELF streamer
+  TargetRegistry::RegisterELFStreamer(getTheMSP430Target(),
+                                      createMCStreamer);
+
+  // Register the obj target streamer.
+  TargetRegistry::RegisterObjectTargetStreamer(getTheMSP430Target(),
+                                               createMSP430ObjectTargetStreamer);
+
+  // Register the asm target streamer.
+  TargetRegistry::RegisterAsmTargetStreamer(getTheMSP430Target(),
+                                            createMCAsmTargetStreamer);
+
+  // Register the asm backend (as little endian).
+  TargetRegistry::RegisterMCAsmBackend(getTheMSP430Target(),
+                                       createMSP430AsmBackend_);
 }
