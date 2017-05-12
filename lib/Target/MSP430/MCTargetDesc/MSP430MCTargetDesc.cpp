@@ -57,10 +57,30 @@ static MCInstPrinter *createMSP430MCInstPrinter(const Triple &T,
   return nullptr;
 }
 
+static MCCodeEmitter *createMSP430MCCodeEmitter(const MCInstrInfo &II,
+                                                const MCRegisterInfo &MRI,
+                                                MCContext &Ctx)
+{
+    return nullptr;
+}
+
 static MCStreamer *createMCStreamer(const Triple &T, MCContext &Context,
                                     MCAsmBackend &MAB, raw_pwrite_stream &OS,
                                     MCCodeEmitter *Emitter, bool RelaxAll) {
   return createELFStreamer(Context, MAB, OS, Emitter, RelaxAll);
+}
+
+static MCTargetStreamer *createMSP430ObjectTargetStreamer(
+        MCStreamer &S, const MCSubtargetInfo &STI)
+{
+    return nullptr;
+}
+
+static MCTargetStreamer *createMCAsmTargetStreamer(
+        MCStreamer &S, formatted_raw_ostream &OS, MCInstPrinter *InstPrint,
+        bool IsVerboseAsm)
+{
+    return nullptr;
 }
 
 static MCAsmBackend *createMSP430AsmBackend_(const Target & /*T*/,
